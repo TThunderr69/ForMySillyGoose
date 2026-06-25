@@ -915,11 +915,11 @@ async function buildPlacesUI(c){
     return;
   }
   try{
-    const res=await fetch(CONFIG.placesSheetUrl);
+    const res=await fetch(CONFIG.placesSheetUrl, {redirect:'follow'});
     const data=await res.json();
     const loading=document.getElementById('placesLoading');
     const list=document.getElementById('placesList');
-    loading.classList.add('hidden');
+    loading.style.display='none';
     list.classList.remove('hidden');
     if(!data.length){list.innerHTML='<div class="place-empty">No places yet — our first ones are coming. ♡</div>';return;}
     data.forEach(p=>{
@@ -927,7 +927,7 @@ async function buildPlacesUI(c){
       const typeEmojis={date:'💑',cafe:'☕',food:'🍽️',trip:'✈️',other:'📍'};
       const emoji=typeEmojis[p.type?.toLowerCase()]||'📍';
       item.innerHTML=`
-        <div class="place-item-top"><div class="place-emoji">${emoji}</div><div class="place-name">${p.name||''}</div>${p.type?`<div class="place-type">${p.type}</div>`:''}
+        <div class="place-item-top"><div class="place-emoji">${emoji}</div><div class="place-name">${p.name||''}</div>
         </div>
         ${p.date?`<div class="place-date">${p.date}</div>`:''}
         ${p.note?`<div class="place-note">${p.note}</div>`:''}
